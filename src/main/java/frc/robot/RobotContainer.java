@@ -6,8 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.auto.commands.DriveTrajectoryAction;
-import frc.robot.auto.modes.autoTest;
+import frc.robot.auto.Testing.autoTest;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -21,7 +20,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drive m_exampleSubsystem = new Drive();
 
-  private final autoTest m_autoCommand = new autoTest();
+  private final autoTest m_autoCommand = new autoTest(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
