@@ -5,10 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.Testing.autoTest;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.auto.Tuning254.CharacterizeDriveBaseMode;
+import frc.robot.util.XboxController;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,31 +23,24 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drive m_exampleSubsystem = new Drive();
+  private final Drive254 mDrive = new Drive254();
+  private final XboxController driverController = new XboxController(0);
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  private final autoTest m_autoCommand = new autoTest(m_exampleSubsystem);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    this.mDrive.setDefaultCommand(new RunCommand(
+      () -> this.mDrive.setCheesyishDrive(driverController.getThrottle(), driverController.getTurn(), driverController.getQuickTurn()),
+    mDrive));
+    
+    this.configureButtonBindings();
+    autoChooser.addOption("Characterize Drive Straight", new CharacterizeDriveBaseMode(false, false, mDrive));
+
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+  }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autoChooser.getSelected();
   }
 }

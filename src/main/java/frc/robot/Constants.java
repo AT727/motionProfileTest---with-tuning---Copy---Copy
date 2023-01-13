@@ -17,7 +17,7 @@ public final class Constants {
     //gotta tune all of these hehe
 
     //WHEEL CONSTRAINTS
-    public static final double kDriveWheelDiameterInches = 0; //
+    public static final double kDriveWheelDiameterInches = 6.0; //
     public static final double kDriveWheelRadiusInches = kDriveWheelDiameterInches / 2.0;
     public static final double kDriveWheelTrackWidthInches = 27.637795; //from our code
     public static final double kTrackScrubFactor = 1.0; //tune, but all teams have it as 1.0
@@ -26,8 +26,13 @@ public final class Constants {
     public static final double kDriveLinearKv = 0; // V per rad/s  
     public static final double kDriveLinearKa = 0; // V / rad/s^2 
     public static final double kDriveVIntercept = 0; // V TODO 
-    public static final double kRobotLinearInertia = 0; // kg TODO
-    public static final double kRobotAngularInertia = 0; // kg m^2 TODO tune
+    public static final double kRobotLinearInertia = 56.699; // kg TODO
+
+    public static final double kDriveAngularKa = 0; //track width sysid
+    public static final double kDriveWheelTrackRadiusWidthMeters = kDriveWheelTrackWidthInches / 2.0 * 0.0254;
+    public static final double kRobotAngularInertia = kDriveAngularKa / kDriveLinearKa *
+            kDriveWheelTrackRadiusWidthMeters * kDriveWheelTrackRadiusWidthMeters * kRobotLinearInertia;
+
     public static final double kRobotAngularDrag = 0; // N*m / (rad/sec)
     
     //PURE PURSUIT TUNING
@@ -36,10 +41,10 @@ public final class Constants {
     public static final double kPathMinLookaheadDistance = 24.0; // inches
 
     //TRAJECTORY GENERATOR CONSTRAINTS
-    public static final double kMaxVel = 0;
-    public static final double kMaxAccel = 0;
-    public static final double kMaxCentripetalAccel = 0;
-    public static final double kMaxVoltage = 0;
+    public static final double kMaxVel = 130;
+    public static final double kMaxAccel = 100;
+    public static final double kMaxCentripetalAccel = 60;
+    public static final double kMaxVoltage = 9.0;
 
     //can spark and drive
     public static final int kRightDriveMasterId = 1;
@@ -53,7 +58,6 @@ public final class Constants {
     //team 27 constants. used for limiting motors so they don't go crazy fast, SHOULD TUNE
     public static int MAX_PEAK_CURRENT = 37;
     public static int MAX_CONTINUOUS_CURRENT = 18;
-
 
     //control board
     public static final boolean kUseDriveGamepad = false; 

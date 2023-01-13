@@ -4,7 +4,7 @@
 
 package frc.robot.auto.Testing;
 
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import frc.robot.auto.Testing.DriveTrajectoryAction;
 import frc.robot.paths.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 
 public class autoTest extends SequentialCommandGroup  {
-  public autoTest(Drive mDrive){
+  public autoTest(Drive254 mDrive){
     addCommands(
     new RunCommand(() -> {
       new DriveTrajectoryAction(TrajectoryGenerator.getInstance().getTrajectorySet().testTrajectory);

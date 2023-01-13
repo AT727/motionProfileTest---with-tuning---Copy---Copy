@@ -2,7 +2,7 @@ package frc.robot.auto.Tuning4915;
 
 import frc.robot.Constants;
 import frc.robot.auto.Tuning4915.CharacterizeDriveMode.SideToCharacterize;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive4915;
 import com.spartronics4915.lib.physics.DriveCharacterization;
 import com.spartronics4915.lib.physics.DriveCharacterization.AccelerationDataPoint;
 import com.spartronics4915.lib.util.DriveSignal;
@@ -20,7 +20,7 @@ public class CollectAccelerationData implements Action
 
     private static final double kPower = 0.5;
     private static final double kTotalTime = 3.0; //how long to run the test for
-    private static final Drive mDrive = new Drive();
+    private static final Drive4915 mDrive = new Drive4915();
 
     private final ReflectingCSVWriter<DriveCharacterization.AccelerationDataPoint> mCSVWriter;
     private final List<DriveCharacterization.AccelerationDataPoint> mAccelerationData;

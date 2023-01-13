@@ -6,7 +6,7 @@ import frc.robot.auto.Tuning4915.AutoModeEndedException;
 import frc.robot.auto.Tuning4915.CollectAccelerationData;
 import frc.robot.auto.Tuning4915.CollectVelocityData;
 import frc.robot.auto.Tuning4915.WaitAction;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive4915;
 import com.spartronics4915.lib.physics.DriveCharacterization;
 import com.spartronics4915.lib.physics.DriveCharacterization.CharacterizationConstants;
 import com.spartronics4915.lib.util.Logger;
@@ -22,7 +22,7 @@ public class CharacterizeDriveMode extends AutoModeBase
     {
         BOTH, LEFT, RIGHT;
 
-        public double getVelocityTicksPer100ms(Drive drive)
+        public double getVelocityTicksPer100ms(Drive4915 drive)
         {
             switch (this)
             {
@@ -39,7 +39,7 @@ public class CharacterizeDriveMode extends AutoModeBase
             }
         }
 
-        public double getVoltage(Drive drive)
+        public double getVoltage(Drive4915 drive)
         {
             switch (this)
             {

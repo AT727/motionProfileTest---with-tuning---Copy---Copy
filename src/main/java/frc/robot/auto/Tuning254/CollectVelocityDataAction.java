@@ -1,18 +1,19 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import com.team254.lib.physics.DriveCharacterization;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.ReflectingCSVWriter;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.List;
 
-public class CollectVelocityDataAction implements Action {
+public class CollectVelocityDataAction extends CommandBase {
     private static final double kMaxPower = 0.25;
     private static final double kRampRate = 0.02;
-    private static final Drive mDrive = new Drive();
+    private static final Drive254 mDrive = new Drive254();
 
     private final ReflectingCSVWriter<DriveCharacterization.DataPoint> mCSVWriter;
     private final List<DriveCharacterization.DataPoint> mVelocityData;
@@ -32,16 +33,16 @@ public class CollectVelocityDataAction implements Action {
         mReverse = reverse;
         mTurn = turn;
         mCSVWriter = new ReflectingCSVWriter<>("/home/lvuser/VELOCITY_DATA.csv", DriveCharacterization.DataPoint.class);
-
+        addRequirements(mDrive);
     }
 
     @Override
-    public void start() {
+    public void initialize() {
         mStartTime = Timer.getFPGATimestamp();
     }
 
     @Override
-    public void update() {
+    public void execute() {
         synchronized (mDrive) {
             double dt = Timer.getFPGATimestamp() - mStartTime;
             double percentPower = kRampRate * dt;
@@ -70,7 +71,7 @@ public class CollectVelocityDataAction implements Action {
     }
 
     @Override
-    public void done() {
+    public void end(boolean interuppted) {
         mDrive.setOpenLoop(DriveSignal.BRAKE);
         mCSVWriter.flush();
     }

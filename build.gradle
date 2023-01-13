@@ -66,6 +66,7 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     testImplementation 'junit:junit:4.13.1'
+    implementation 'gov.nist.math:jama:1.0.3'
     
 }
 

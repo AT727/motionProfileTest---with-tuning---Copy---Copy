@@ -4,7 +4,7 @@
 
 package frc.robot.auto.Testing;
 
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.team254.lib.geometry.Pose2dWithCurvature;
 import com.team254.lib.trajectory.TimedView;
@@ -15,7 +15,7 @@ import com.team254.lib.trajectory.timing.TimedState;
 
 public class DriveTrajectoryAction extends CommandBase {
 
-    private static final Drive mDrive = new Drive();
+    private static final Drive254 mDrive = new Drive254();
     // private static final RobotState mRobotState = RobotState.getInstance();
 
     private final TrajectoryIterator<TimedState<Pose2dWithCurvature>> mTrajectory;

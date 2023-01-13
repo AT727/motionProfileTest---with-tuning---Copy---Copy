@@ -1,21 +1,22 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import com.team254.lib.physics.DriveCharacterization;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.ReflectingCSVWriter;
 import com.team254.lib.util.Util;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.List;
 
-public class CollectAccelerationDataAction implements Action {
+public class CollectAccelerationDataAction extends CommandBase {
     private static final double kStartPower = 0.1;
     private static final double kPower = 0.8;
     private static final double kTotalTime = 2.0; // how long to run the test for
     private static final double kStartTime = 1.0;
-    private static final Drive mDrive = new Drive();
+    private static final Drive254 mDrive = new Drive254();
 
     private final ReflectingCSVWriter<DriveCharacterization.DataPoint> mCSVWriter;
     private final List<DriveCharacterization.DataPoint> mAccelerationData;
@@ -38,17 +39,18 @@ public class CollectAccelerationDataAction implements Action {
         mReverse = reverse;
         mTurn = turn;
         mCSVWriter = new ReflectingCSVWriter<>("/home/lvuser/ACCEL_DATA.csv", DriveCharacterization.DataPoint.class);
+        addRequirements(mDrive);
     }
 
     @Override
-    public void start() {
+    public void initialize() {
         mDrive.setOpenLoop(new DriveSignal((mReverse ? -1.0 : 1.0) * kStartPower, (mReverse ? -1.0 : 1.0) * (mTurn ? -1.0 : 1.0) * kStartPower));
         mStartTime = Timer.getFPGATimestamp();
         mPrevTime = mStartTime;
     }
 
     @Override
-    public void update() {
+    public void execute() {
         double currentVelocity;
         double currentTime;
         synchronized (mDrive) {
@@ -96,7 +98,7 @@ public class CollectAccelerationDataAction implements Action {
     }
 
     @Override
-    public void done() {
+    public void end(boolean interrupted) {
         mDrive.setOpenLoop(DriveSignal.BRAKE);
         mCSVWriter.flush();
     }
