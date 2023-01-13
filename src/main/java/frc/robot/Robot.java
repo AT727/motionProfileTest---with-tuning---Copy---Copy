@@ -20,6 +20,7 @@ import frc.robot.controlboard.*;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Drive254 mDrive = new Drive254();
 
   private RobotContainer m_robotContainer;
 
@@ -33,6 +34,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    mDrive.zeroSensors();
+    
 
   }
 
@@ -55,7 +58,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-
+    mDrive.zeroSensors();
   }
 
   @Override
@@ -66,8 +69,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    mDrive.zeroSensors();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
