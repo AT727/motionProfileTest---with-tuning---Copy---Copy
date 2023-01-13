@@ -19,6 +19,9 @@ import frc.robot.planners.DriveMotionPlanner;
 import com.team254.lib.geometry.Pose2dWithCurvature;
 import com.team254.lib.trajectory.TrajectoryIterator;
 import com.team254.lib.trajectory.timing.TimedState;
+import com.kauailabs.navx.frc.AHRS;
+import com.team254.lib.geometry.Rotation2d;
+import com.revrobotics.RelativeEncoder;
 
 
 public class Drive254 extends SubsystemBase {
@@ -29,6 +32,9 @@ public class Drive254 extends SubsystemBase {
   private PeriodicIO mPeriodicIO;
   private DriveMotionPlanner mMotionPlanner;
   private boolean mOverrideTrajectory = false;
+  private Rotation2d mGyroOffset = Rotation2d.identity();
+  private final AHRS gyro;
+  private final RelativeEncoder mRightEncoder, mLeftEncoder;
 
 
   public enum DriveControlState {
@@ -88,13 +94,34 @@ public class Drive254 extends SubsystemBase {
     mLeftFollower1.setInverted(false);
     mLeftFollower2.setInverted(false);
 
-    
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
+    private final RelativeEncoder mRightEncoder = mRightLeader.getEncoder();
+    private final RelativeEncoder mLeftEncoder = mLeftLeader.getEncoder();
      // force a CAN message across
      mIsBrakeMode = true;
      setBrakeMode(false); 
      
 
   };
+  public void zeroSensors() {
+        setHeading(Rotation2d.identity());
+        resetEncoders();
+//         mAutoShift = true;
+    }
+  
+  public void resetEncoders() {
+        mLeftEncoder.setPosition(0);
+        mRightEncoder.setPosition(0);
+    }
+  
+    public synchronized void setHeading(Rotation2d heading) {
+//         System.out.println("set heading: " + heading.getDegrees());
+
+        mGyroOffset = heading.rotateBy(Rotation2d.fromDegrees(gyro.getFusedHeading()).inverse());
+//         System.out.println("gyro offset: " + mGyroOffset.getDegrees());
+
+//         mPeriodicIO.gyro_heading = heading;
+    }
 
   public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
     if (mMotionPlanner != null) {
